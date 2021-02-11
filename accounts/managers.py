@@ -18,6 +18,7 @@ class UserManager(BaseUserManager):
 
     def create_superuser(self, email, password, **other_fields):
         other_fields.update({
+            'is_tutor': True,
             'is_staff': True,
             'is_superuser': True,
         })

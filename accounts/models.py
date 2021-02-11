@@ -2,6 +2,8 @@ from uuid import uuid4
 
 from django.contrib.auth.models import AbstractUser
 from django.db import models
+from django.db.models.signals import post_save
+from django.dispatch import receiver
 
 from .managers import UserManager
 
@@ -19,7 +21,6 @@ class User(AbstractUser):
         __empty__ = ''
 
     username = None
-    # is_staff = None
     email = models.EmailField(
         'адрес электронной почты',
         unique=True,
@@ -35,15 +36,11 @@ class User(AbstractUser):
     is_tutor = models.BooleanField('преподаватель', default=False)
 
     USERNAME_FIELD = 'email'
-    REQUIRED_FIELDS = ['is_tutor']
+    REQUIRED_FIELDS = []
     objects = UserManager()
 
-    def save(self, *args, **kwargs):
-        tutor_created = self.pk is None and self.is_tutor
-        super().save(*args, **kwargs)
-        if tutor_created:
-            Tutor.objects.create(user=self)
-            self.tutor.save()
+    def __str__(self):
+        return self.get_full_name() or self.email
 
 
 class Student(User):
@@ -52,10 +49,23 @@ class Student(User):
 
 
 class Tutor(models.Model):
+    class Meta:
+        verbose_name_plural = 'профиль преподавателя'
+
+    # pk = 'user_id'
     user = models.OneToOneField(
         User,
         on_delete=models.CASCADE,
         primary_key=True,
-        parent_link=True
+        verbose_name='профиль преподавателя'
     )
     resume = models.TextField('резюме', blank=True)
+
+    def __str__(self):
+        return str(self.user)
+
+
+@receiver(post_save, sender=User)
+def create_tutor_profile(sender, instance, created, **kwargs):
+    if created and instance.is_tutor:
+        Tutor.objects.create(user=instance)
