@@ -18,9 +18,9 @@ optional = false
 python-versions = ">=3.6"
 
 [package.dependencies]
-sqlparse = ">=0.2.2"
-pytz = "*"
 asgiref = ">=3.2.10,<4"
+pytz = "*"
+sqlparse = ">=0.2.2"
 
 [package.extras]
 argon2 = ["argon2-cffi (>=16.1.0)"]
@@ -52,8 +52,8 @@ python-versions = ">=3.5"
 
 [metadata]
 lock-version = "1.1"
-python-versions = "^3.9.0"
-content-hash = "779888287d54e383ec24ef88c134bca8c87a39f06f6a2476c6c5e73d5db030b7"
+python-versions = "^3.8.0"
+content-hash = "5fb4f708f33cc25b0e382db7b377547c19256d87a77c4064638313a2f3d478f0"
 
 [metadata.files]
 asgiref = [
