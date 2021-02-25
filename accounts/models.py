@@ -49,10 +49,6 @@ class Student(User):
 
 
 class Tutor(models.Model):
-    class Meta:
-        verbose_name_plural = 'профиль преподавателя'
-
-    # pk = 'user_id'
     user = models.OneToOneField(
         User,
         on_delete=models.CASCADE,
@@ -60,6 +56,9 @@ class Tutor(models.Model):
         verbose_name='профиль преподавателя'
     )
     resume = models.TextField('резюме', blank=True)
+
+    class Meta:
+        verbose_name_plural = 'профиль преподавателя'
 
     def __str__(self):
         return str(self.user)

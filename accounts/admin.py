@@ -8,13 +8,6 @@ from .models import User, Tutor
 class TeacherProfileInline(admin.TabularInline):
     model = Tutor
     can_delete = False
-    # verbose_name = 'профиль учителя'
-    # fields = 'resume',
-    # fieldsets = (
-    #     ('профиль учителя', {
-    #         'fields': ('resume',)
-    #     }),
-    # )
 
 
 @admin.register(User)
@@ -29,10 +22,10 @@ class UserAdmin(BaseUserAdmin):
             'fields': ('email', 'password')
         }),
         ('права', {
-            'fields': ('is_staff', 'is_tutor', 'is_active')
+            'fields': [('is_active', 'is_tutor')]
         }),
         ('личные данные', {
-            'fields': ('first_name', 'last_name', 'gender', 'birthdate', 'image')
+            'fields': (('first_name', 'last_name'), 'birthdate', 'gender', 'image')
         })
     )
     add_fieldsets = (
@@ -42,10 +35,10 @@ class UserAdmin(BaseUserAdmin):
         }),
         ('права', {
             'classes': ('wide',),
-            'fields': ('is_staff', 'is_tutor', 'is_active'),
+            'fields': [('is_active', 'is_tutor')]
         }),
         ('личные данные', {
-            'fields': ('first_name', 'last_name', 'image', 'gender', 'birthdate')
+            'fields': (('first_name', 'last_name'), 'birthdate', 'gender', 'image')
         }),
     )
     search_fields = ('email', 'last_name')
@@ -62,7 +55,9 @@ class UserAdmin(BaseUserAdmin):
         return super().get_inline_instances(request, obj)
 
     def get_readonly_fields(self, request, obj=None):
-        return self.readonly_fields if obj else []
+        if not obj:
+            return []
+        return super().get_readonly_fields(request, obj)
 
 
 admin.site.unregister(Group)
