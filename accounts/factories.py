@@ -1,5 +1,6 @@
 import factory
 from django.conf import settings
+from django.db.models.signals import post_save
 
 from .models import User, Student, Tutor
 
@@ -21,6 +22,7 @@ class PersonFactory(factory.StubFactory):
     last_name = fake('last_name_female')
 
 
+@factory.django.mute_signals(post_save)
 class UserFactory(factory.django.DjangoModelFactory):
     class Meta:
         model = User
@@ -44,6 +46,7 @@ class StudentFactory(UserFactory):
     is_tutor = False
 
 
+@factory.django.mute_signals(post_save)
 class TutorFactory(factory.django.DjangoModelFactory):
     class Meta:
         model = Tutor
