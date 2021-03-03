@@ -6,11 +6,16 @@ from accounts.models import Student, Tutor
 class Course(models.Model):
     name = models.CharField('название курса', max_length=100)
     description = models.TextField('описание курса')
-    tutor = models.ForeignKey('accounts.Tutor', models.CASCADE, verbose_name='преподаватель')
+    tutor = models.ForeignKey(
+        'accounts.Tutor',
+        models.CASCADE,
+        related_name='courses',
+        verbose_name='преподаватель'
+    )
     students = models.ManyToManyField(
         'accounts.Student',
         through='learning.CourseSubscription',
-        related_name='courses',
+        related_name='subscribed_courses',
         verbose_name='студенты'
     )
 

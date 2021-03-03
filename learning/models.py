@@ -7,8 +7,18 @@ class CourseSubscription(models.Model):
         verbose_name_plural = 'подписки на курсы'
         unique_together = ['student', 'course']
 
-    student = models.ForeignKey('accounts.Student', models.CASCADE, verbose_name='студент')
-    course = models.ForeignKey('courses.Course', models.CASCADE, verbose_name='курс')
+    student = models.ForeignKey(
+        'accounts.Student',
+        models.CASCADE,
+        related_name='+',
+        verbose_name='студент'
+    )
+    course = models.ForeignKey(
+        'courses.Course',
+        models.CASCADE,
+        related_name='+',
+        verbose_name='курс'
+    )
     finished = models.BooleanField('окончен', default=False)
 
     def __str__(self):
@@ -21,7 +31,7 @@ class LearningProgress(models.Model):
         verbose_name_plural = 'занятия в подписках'
         unique_together = ['subscription', 'lesson']
 
-    subscription = models.ForeignKey(CourseSubscription, models.CASCADE)
+    subscription = models.ForeignKey(CourseSubscription, models.CASCADE, related_name='progress')
     lesson = models.ForeignKey('courses.Lesson', models.CASCADE)
     finished = models.BooleanField('пройдено', default=False)
 
