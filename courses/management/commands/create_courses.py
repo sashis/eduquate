@@ -7,8 +7,8 @@ class Command(BaseCommand):
     help = 'fake a number of courses with lessons'
 
     def add_arguments(self, parser):
-        parser.add('--courses', type=int, default=10, help='course count')
-        parser.add('--lessons', type=int, default=10, help='lesson count per course')
+        parser.add_argument('--courses', type=int, default=10, help='course count')
+        parser.add_argument('--lessons', type=int, default=10, help='lesson count per course')
 
     def handle(self, *args, **options):
         course_cnt = options['courses']
