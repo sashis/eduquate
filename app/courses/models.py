@@ -1,7 +1,5 @@
 from django.db import models
 
-from accounts.models import Student, Tutor
-
 
 class Course(models.Model):
     name = models.CharField('название курса', max_length=100)

@@ -2,7 +2,7 @@ from random import choices
 
 from django.core.management import BaseCommand
 
-from accounts.factories import StudentFactory, TutorFactory
+from accounts.factories import StudentFactory
 from courses.factories import generate_course_with_lessons
 
 

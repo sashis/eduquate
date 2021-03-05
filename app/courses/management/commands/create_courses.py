@@ -1,6 +1,6 @@
 from django.core.management import BaseCommand
 
-from ...factories import generate_course_with_lessons
+from courses.factories import generate_course_with_lessons
 
 
 class Command(BaseCommand):

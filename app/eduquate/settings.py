@@ -1,18 +1,14 @@
+import os
+
 from pathlib import Path
+
+from django.contrib.messages import constants as messages
 
 BASE_DIR = Path(__file__).resolve().parent.parent
 
-
-# Quick-start development settings - unsuitable for production
-# See https://docs.djangoproject.com/en/3.1/howto/deployment/checklist/
-
-# SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = '*1g&tk96rf0c%x59^dc$!v-2rk9d-m$6y+u62$#i0l72$*xl4c'
-
-# SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
-
-ALLOWED_HOSTS = []
+SECRET_KEY = os.environ.get('EDUQUATE_SECRET_KEY')
+DEBUG = int(os.environ.get('EDUQUATE_DEBUG', default=0))
+ALLOWED_HOSTS = os.environ.get('EDUQUATE_ALLOWED_HOSTS').split(' ')
 
 INSTALLED_APPS = [
     'django.contrib.admin',
@@ -55,54 +51,48 @@ TEMPLATES = [
 ]
 
 WSGI_APPLICATION = 'eduquate.wsgi.application'
-
-
-# Database
-# https://docs.djangoproject.com/en/3.1/ref/settings/#databases
-
 DATABASES = {
     'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': BASE_DIR / 'db.sqlite3',
+        'ENGINE': os.environ.get('EDUQUATE_DB_ENGINE', 'django.db.backends.sqlite3'),
+        'NAME': os.environ.get('EDUQUATE_DB', BASE_DIR / 'db.sqlite3'),
+        'USER': os.environ.get('EDUQUATE_DB_USER', 'user'),
+        'PASSWORD': os.environ.get('EDUQUATE_DB_PASSWORD', 'password'),
+        'HOST': os.environ.get('EDUQUATE_DB_HOST', 'localhost'),
+        'PORT': os.environ.get('EDUQUATE_DB_PORT', '5432'),
     }
 }
 
-
-# Password validation
-# https://docs.djangoproject.com/en/3.1/ref/settings/#auth-password-validators
 AUTH_USER_MODEL = 'accounts.User'
 
 AUTH_PASSWORD_VALIDATORS = [
-    {
-        'NAME': 'django.contrib.auth.password_validation.UserAttributeSimilarityValidator',
-    },
-    {
-        'NAME': 'django.contrib.auth.password_validation.MinimumLengthValidator',
-    },
-    {
-        'NAME': 'django.contrib.auth.password_validation.CommonPasswordValidator',
-    },
-    {
-        'NAME': 'django.contrib.auth.password_validation.NumericPasswordValidator',
-    },
+    {'NAME': 'django.contrib.auth.password_validation.UserAttributeSimilarityValidator',},
+    {'NAME': 'django.contrib.auth.password_validation.MinimumLengthValidator',},
+    {'NAME': 'django.contrib.auth.password_validation.CommonPasswordValidator',},
+    {'NAME': 'django.contrib.auth.password_validation.NumericPasswordValidator',},
 ]
 
-
-# Internationalization
-# https://docs.djangoproject.com/en/3.1/topics/i18n/
-
 LANGUAGE_CODE = 'ru-ru'
-
 TIME_ZONE = 'UTC'
-
 USE_I18N = True
-
 USE_L10N = True
-
 USE_TZ = True
 
-
-# Static files (CSS, JavaScript, Images)
-# https://docs.djangoproject.com/en/3.1/howto/static-files/
+STATICFILES_DIRS = BASE_DIR / 'static',
+MEDIA_ROOT = BASE_DIR / 'images'
 
 STATIC_URL = '/static/'
+MEDIA_URL = '/media/'
+LOGIN_URL = 'accounts/login'
+LOGOUT_URL = 'accounts/logout'
+LOGIN_REDIRECT_URL = 'home'
+LOGOUT_REDIRECT_URL = 'home'
+
+MESSAGE_TAGS = {
+    messages.DEBUG: 'alert-secondary',
+    messages.INFO: 'alert-info',
+    messages.SUCCESS: 'alert-success',
+    messages.WARNING: 'alert-warning',
+    messages.ERROR: 'alert-error'
+}
+
+CRISPY_TEMPLATE_PACK = 'bootstrap4'
