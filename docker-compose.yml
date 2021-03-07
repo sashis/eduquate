@@ -9,15 +9,19 @@ services:
     ports:
       - 8000:8000
     env_file:
-      - ./.env.dev
+      - ./.env
+    environment:
+      - DATABASE_URL=${DB_ENGINE}://${DB_USER}:${DB_PASS}@${DB_HOST}:${DB_PORT}/${DB_NAME}
     depends_on:
       - db
   db:
     image: postgres:12
     volumes:
     - postgres_data:/var/lib/postgresql/data/
-    env_file:
-      - ./.env.dev
+    environment:
+      - POSTGRES_USER=${DB_USER}
+      - POSTGRES_PASSWORD=${DB_PASS}
+      - POSTGRES_DB=${DB_NAME}
 
 volumes:
   postgres_data:

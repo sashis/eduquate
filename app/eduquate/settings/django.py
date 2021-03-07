@@ -1,14 +1,8 @@
-import os
+from eduquate.settings.helpers import env, BASE_DIR
 
-from pathlib import Path
-
-from django.contrib.messages import constants as messages
-
-BASE_DIR = Path(__file__).resolve().parent.parent
-
-SECRET_KEY = os.environ.get('EDUQUATE_SECRET_KEY')
-DEBUG = int(os.environ.get('EDUQUATE_DEBUG', default=0))
-ALLOWED_HOSTS = os.environ.get('EDUQUATE_ALLOWED_HOSTS').split(' ')
+SECRET_KEY = env('SECRET_KEY')
+DEBUG = env.bool('DEBUG', default=False)
+ALLOWED_HOSTS = env.list('ALLOWED_HOSTS', default=['*'])
 
 INSTALLED_APPS = [
     'django.contrib.admin',
@@ -17,9 +11,6 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
-    'accounts.apps.AccountsConfig',
-    'courses.apps.CoursesConfig',
-    'learning.apps.LearningConfig'
 ]
 
 MIDDLEWARE = [
@@ -53,16 +44,10 @@ TEMPLATES = [
 WSGI_APPLICATION = 'eduquate.wsgi.application'
 DATABASES = {
     'default': {
-        'ENGINE': os.environ.get('EDUQUATE_DB_ENGINE', 'django.db.backends.sqlite3'),
-        'NAME': os.environ.get('EDUQUATE_DB', BASE_DIR / 'db.sqlite3'),
-        'USER': os.environ.get('EDUQUATE_DB_USER', 'user'),
-        'PASSWORD': os.environ.get('EDUQUATE_DB_PASSWORD', 'password'),
-        'HOST': os.environ.get('EDUQUATE_DB_HOST', 'localhost'),
-        'PORT': os.environ.get('EDUQUATE_DB_PORT', '5432'),
+        'ENGINE': 'django.db.backends.sqlite3',
+        'NAME': BASE_DIR / 'db.sqlite3',
     }
 }
-
-AUTH_USER_MODEL = 'accounts.User'
 
 AUTH_PASSWORD_VALIDATORS = [
     {'NAME': 'django.contrib.auth.password_validation.UserAttributeSimilarityValidator',},
@@ -77,22 +62,4 @@ USE_I18N = True
 USE_L10N = True
 USE_TZ = True
 
-STATICFILES_DIRS = BASE_DIR / 'static',
-MEDIA_ROOT = BASE_DIR / 'images'
-
 STATIC_URL = '/static/'
-MEDIA_URL = '/media/'
-LOGIN_URL = 'accounts/login'
-LOGOUT_URL = 'accounts/logout'
-LOGIN_REDIRECT_URL = 'home'
-LOGOUT_REDIRECT_URL = 'home'
-
-MESSAGE_TAGS = {
-    messages.DEBUG: 'alert-secondary',
-    messages.INFO: 'alert-info',
-    messages.SUCCESS: 'alert-success',
-    messages.WARNING: 'alert-warning',
-    messages.ERROR: 'alert-error'
-}
-
-CRISPY_TEMPLATE_PACK = 'bootstrap4'
