@@ -28,18 +28,18 @@
             </a>
             <div class="dropdown-menu dropdown-menu-right" aria-labelledby="navbarDropdown">
               <a class="dropdown-item" href="{% url 'accounts:edit' %}">Редактировать профиль</a>
-              <a class="dropdown-item" href="{% url 'students:course_list' %}">Мое обучение</a>
-              <div class="dropdown-divider"></div>
-              {% if user.is_teacher %}
-              <a class="dropdown-item" href="{% url 'teachers:course_list' %}">Авторские курсы</a>
-              <div class="dropdown-divider"></div>
-              {% endif %}
+{#              <a class="dropdown-item" href="{% url 'students:course_list' %}">Мое обучение</a>#}
+{#              <div class="dropdown-divider"></div>#}
+{#              {% if user.is_teacher %}#}
+{#              <a class="dropdown-item" href="{% url 'teachers:course_list' %}">Авторские курсы</a>#}
+{#              <div class="dropdown-divider"></div>#}
+{#              {% endif %}#}
               <a class="dropdown-item" href="{% url 'accounts:logout' %}">Выход</a>
             </div>
           </li>
           {% else %}
           <li class="nav-item mx-2">
-            <a class="nav-link" href="{% url 'accounts:login' %}">Вход/Регистрация</a>
+            <a class="nav-link" href="{% url 'accounts:login' %}">Вход</a>
           </li>
           {% endif %}
         </ul>
@@ -65,7 +65,7 @@
     <footer class="mt-5">
       <div class="container text-center">
         <hr />
-        <p>&copy; EDUQUATE 2020</p>
+        <p>&copy EDUQUATE {% now 'Y' %}</p>
       </div>
     </footer>
     <script src="{% static 'js/jquery-3.6.0.slim.min.js' %}"></script>

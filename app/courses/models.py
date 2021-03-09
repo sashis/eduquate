@@ -1,5 +1,6 @@
 from django.db import models
 from django.db.models.functions import Coalesce
+from django.urls import reverse
 
 
 class CourseManager(models.Manager):
@@ -33,6 +34,9 @@ class Course(models.Model):
 
     def __str__(self):
         return self.name
+
+    def get_absolute_url(self):
+        return reverse('courses:detail', args=[self.id])
 
 
 class Lesson(models.Model):

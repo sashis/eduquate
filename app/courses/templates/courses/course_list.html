@@ -13,14 +13,11 @@
     <div class="card mx-0 h-100 bg-light">
       <div class="card-body">
         <h5 class="card-title">{{ course.name }}</h5>
-        <a
-          href="{% url 'courses:detail' course.pk %}"
-          class="stretched-link"
-        ></a>
+        <a href="{{ course.get_absolute_url }}" class="stretched-link"></a>
       </div>
       <div class="card-footer">
         <small class="text-muted d-flex justify-content-between">
-          <span>с {{ course.lessons.first.scheduled_for|date:'j E' }}</span>
+          <span>{{ course.tutor }}</span>
           <span>{{ course.lessons.count }} занятий</span>
         </small>
       </div>
