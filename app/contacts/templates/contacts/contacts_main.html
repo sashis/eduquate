@@ -1,0 +1,20 @@
+{% extends "base.html" %}
+
+{% block window_title %}Контакты{% endblock window_title %}
+
+{% block top_content %}
+<h1 class="display-4">Контакты</h1>
+<p>Любые вопросы направляйте на <a href="mailto:help@eduqate.com">help@eduqate.com</a></p>
+<a class="mt-5 btn btn-primary btn-lg" href="{% url 'contacts:send_mail' %}">Написать преподавателю</a>
+{% endblock top_content %}
+
+{% block content %}
+{% for message in messages %}
+<div class="alert {{ message.tags }} alert-dismissible fade show" role="alert">
+    {{ message }}
+    <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+    <span aria-hidden="true">&times;</span>
+    </button>
+</div>
+{% endfor %}
+{% endblock content %}

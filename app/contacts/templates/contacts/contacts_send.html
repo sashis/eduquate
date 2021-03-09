@@ -1,0 +1,21 @@
+{% extends "base.html" %}
+{% load crispy_forms_tags %}
+
+{% block window_title %}Контакты{% endblock window_title %}
+
+{% block top_content %}
+<h1 class="display-4">Контакты</h1>
+<p>Любые вопросы направляйте на <a href="mailto:help@eduqate.com">help@eduqate.com</a></p>
+<a class="mt-5 btn btn-primary btn-lg disabled" href="{% url 'contacts:send_mail' %}">Написать преподавателю</a>
+{% endblock top_content %}
+
+{% block content %}
+<div id="buttons" class="row justify-content-center mb-3">
+<form method="post" class="col-md-8 col-xl-5" novalidate>
+  {% csrf_token %}
+  {{ form|crispy }}
+  <button class="w-50 mx-n1 btn btn-success float-left" type="submit" class="">Отправить</button>
+  <a class="w-50 mx-n1 btn btn-secondary float-right" href="{% url 'contacts:main' %}">Отмена</a>
+</form>
+</div>
+{% endblock content %}

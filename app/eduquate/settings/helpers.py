@@ -3,7 +3,7 @@ from pathlib import Path
 import environ
 
 env = environ.Env()
-BASE_DIR = Path(__file__).resolve().parent.parent
+BASE_DIR = Path(__file__).resolve().parent.parent.parent
 
 
 def _insert_with_offset(elements, target_element, new_element, offset):

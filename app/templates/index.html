@@ -1,0 +1,34 @@
+{% extends "base.html" %}
+
+{% block window_title %}Образовательный портал{% endblock window_title %}
+
+{% block top_content %}
+<h1 class="display-4">Образовательный портал</h1>
+<p class="lead">С нами вы приобретете самые актуальные знания и станете востребованным специалистом</p>
+<p><a class="mt-5 btn btn-primary btn-lg" href="{% url 'courses:list' %}" role="button">Наши курсы &raquo;</a></p>          
+{% endblock top_content %}
+
+{% block content %}
+<h2 class="mb-5">Популярные курсы</h2>
+<div class="card-deck">
+  {% for course in course_list|slice:":3" %}
+  <div class="col-md-6 col-lg-4 mb-4 align-items-stretch">
+    <div class="card mx-0 h-100 bg-light">
+      <div class="card-body">
+        <h5 class="card-title">{{ course.name }}</h5>
+        <a
+          href="{% url 'courses:detail' course.pk %}"
+          class="stretched-link"
+        ></a>
+      </div>
+      <div class="card-footer">
+        <small class="text-muted d-flex justify-content-between">
+          <span>с {{ course.lessons.first.scheduled_for|date:'j E' }}</span>
+          <span>{{ course.lessons.count }} занятий</span>
+        </small>
+      </div>
+    </div>
+  </div>
+  {% endfor %}
+</div>
+{% endblock content %}

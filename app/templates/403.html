@@ -1,0 +1,12 @@
+{% extends "errors.html" %}
+
+{% block window_title %}
+Error 403
+{% endblock window_title %}
+
+{% block top_content %}
+<h1 class="display-4">Error 403: HTTP Forbidden</h1>
+{% if exception %}
+<p class="lead">{{ exception }}</p>
+{% endif %} 
+{% endblock top_content %}

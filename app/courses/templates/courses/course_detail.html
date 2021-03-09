@@ -1,0 +1,33 @@
+{% extends "base.html" %} 
+
+{% block window_title %}{{ course.name }}{% endblock window_title %}
+
+{% block top_content %}
+<h1 class="display-4">{{ course.name }}</h1>
+<p class="lead">Продолжительность: {{ course.lessons.count }} занятий.</p>
+<p>Начало курса: {{course.lessons.first.scheduled_for|date:'j E' }}</p>
+{% if link_enabled %}
+<div class="mt-5">
+  <a class="btn btn-primary btn-lg" href="{% url 'students:course_join' course.pk %}" role="button">Записаться</a>
+</div>
+{% endif %}
+{% endblock top_content %} 
+
+{% block content %}
+<div id="course-description" class="border-bottom mb-4">
+  <h3 class="mb-3">О курсе</h3>
+  <p>{{ course.description|linebreaksbr }}</p>
+</div>
+<div id="author-details">
+  <h3 class="mb-3">О преподавателе</h3>
+  <div class="row">
+    <div class="photo col-3 text-center">
+      <img class="img-fluid" src="{{ course.teacher.get_img_url }}" />
+      <p>{{ course.teacher.get_full_name }}</p>
+    </div>
+    <div class="teacher-info col-9">
+      <p>{{ course.teacher.bio|linebreaksbr }}</p>
+    </div>
+  </div>
+</div>
+{% endblock content %}

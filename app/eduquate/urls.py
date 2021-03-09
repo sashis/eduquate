@@ -3,7 +3,14 @@ from django.contrib import admin
 from django.contrib.staticfiles.urls import static
 from django.urls import include, path
 
+from courses.views import IndexPageView
+from contacts.views import ContactView
+
 urlpatterns = [
+    path('', IndexPageView.as_view(), name='home'),
+    path('accounts/', include('accounts.urls', namespace='accounts')),
+    path('courses/', include('courses.urls', namespace='courses')),
+    path('contacts/', ContactView.as_view(), name='contacts'),
     path('admin/', admin.site.urls),
 ]
 

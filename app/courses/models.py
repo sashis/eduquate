@@ -1,4 +1,12 @@
 from django.db import models
+from django.db.models.functions import Coalesce
+
+
+class CourseManager(models.Manager):
+    def with_rating(self, ordered=False):
+        rated_courses = self.annotate(
+            rating=Coalesce(models.Count('students'), 0))
+        return rated_courses.order_by('-rating') if ordered else rated_courses
 
 
 class Course(models.Model):
@@ -16,6 +24,8 @@ class Course(models.Model):
         related_name='subscribed_courses',
         verbose_name='студенты'
     )
+
+    objects = CourseManager()
 
     class Meta:
         verbose_name = 'курс'
