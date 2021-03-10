@@ -30,3 +30,10 @@ MESSAGE_TAGS = {
     messages.WARNING: 'alert-warning',
     messages.ERROR: 'alert-error'
 }
+
+ADMINS = [
+    ('Site Admin', 'admin@eduquate.con')
+]
+DEFAULT_FROM_EMAIL = 'no-reply@eduquate.com'
+EMAIL_SUBJECT_PREFIX = '[EduQuate Site Message] '
+EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'

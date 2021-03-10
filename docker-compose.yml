@@ -1,7 +1,7 @@
 version: '3.7'
 
 services:
-  web:
+  app:
     build: ./app
     command: python manage.py runserver 0.0.0.0:8000
     volumes:
@@ -11,7 +11,9 @@ services:
     env_file:
       - ./.env
     environment:
+      - MAIN_APP=yes
       - DATABASE_URL=${DB_ENGINE}://${DB_USER}:${DB_PASS}@${DB_HOST}:${DB_PORT}/${DB_NAME}
+      - BROKER_URL=redis://redis:6379
     depends_on:
       - db
   db:
@@ -22,6 +24,23 @@ services:
       - POSTGRES_USER=${DB_USER}
       - POSTGRES_PASSWORD=${DB_PASS}
       - POSTGRES_DB=${DB_NAME}
+  redis:
+    image: redis:6
+  celery:
+    build: ./app
+    command: celery -A eduquate worker -l info
+    volumes:
+      - ./app:/usr/src/app
+    env_file:
+      - ./.env
+    environment:
+      - DATABASE_URL=${DB_ENGINE}://${DB_USER}:${DB_PASS}@${DB_HOST}:${DB_PORT}/${DB_NAME}
+      - BROKER_URL=redis://redis:6379
+    restart: always
+    depends_on:
+      - db
+      - redis
+      - app
 
 volumes:
   postgres_data:

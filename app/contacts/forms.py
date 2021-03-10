@@ -19,9 +19,9 @@ class SendMailForm(forms.Form):
     message = forms.CharField(
         label='',
         widget=forms.Textarea(attrs={'placeholder': 'Сообщение'}),
-        error_messages={'required': 'Напишите собшение'}
+        error_messages={'required': 'Напишите сообщение'}
     )
 
-    def send_email_from(self, sender):
-        from_, to, subject, message = prepare_email(sender, **self.cleaned_data)
-        send_email.delay(subject, message, from_, to)
+    def task_send_email(self, sender):
+        to, subject, message = prepare_email(sender, **self.cleaned_data)
+        send_email.delay(subject, message, to)
