@@ -3,26 +3,26 @@
 {% block window_title %}Курсы{% endblock window_title %}
 
 {% block top_content %}
-<h1 class="display-4">Наши курсы</h1>
-{% endblock top_content %} 
+    <h1 class="display-4">Наши курсы</h1>
+{% endblock top_content %}
 
 {% block content %}
-<div class="card-deck">
-  {% for course in course_list %}
-  <div class="col-md-6 col-lg-4 mb-4 align-items-stretch">
-    <div class="card mx-0 h-100 bg-light">
-      <div class="card-body">
-        <h5 class="card-title">{{ course.name }}</h5>
-        <a href="{{ course.get_absolute_url }}" class="stretched-link"></a>
-      </div>
-      <div class="card-footer">
-        <small class="text-muted d-flex justify-content-between">
-          <span>{{ course.tutor }}</span>
-          <span>{{ course.lessons.count }} занятий</span>
-        </small>
-      </div>
+    <div class="card-deck">
+        {% for course in course_list %}
+            <div class="col-md-6 col-lg-4 mb-4 align-items-stretch">
+                <div class="card mx-0 h-100 bg-light">
+                    <div class="card-body">
+                        <h5 class="card-title">{{ course.name }}</h5>
+                        <a href="{{ course.get_absolute_url }}" class="stretched-link"></a>
+                    </div>
+                    <div class="card-footer">
+                        <small class="text-muted d-flex justify-content-between">
+                            <span>{{ course.tutor }}</span>
+                            <span>{{ course.lessons.count }} занятий</span>
+                        </small>
+                    </div>
+                </div>
+            </div>
+        {% endfor %}
     </div>
-  </div>
-  {% endfor %}
-</div>
 {% endblock content %}

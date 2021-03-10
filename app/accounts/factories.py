@@ -2,7 +2,7 @@ import factory
 from django.conf import settings
 from django.db.models.signals import post_save
 
-from .models import User, Student, Tutor
+from .models import User, Student, Tutor, GenderChoice
 
 
 def fake(provider, **kwargs):
@@ -12,12 +12,12 @@ def fake(provider, **kwargs):
 class PersonFactory(factory.StubFactory):
     class Params:
         male = factory.Trait(
-            gender=User.Gender.MALE,
+            gender=GenderChoice.MALE,
             first_name=fake('first_name_male'),
             last_name=fake('last_name_male')
         )
 
-    gender = User.Gender.FEMALE
+    gender = GenderChoice.FEMALE
     first_name = fake('first_name_female')
     last_name = fake('last_name_female')
 

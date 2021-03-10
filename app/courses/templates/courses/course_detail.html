@@ -1,32 +1,34 @@
-{% extends "base.html" %} 
+{% extends "base.html" %}
 
 {% block window_title %}{{ course.name }}{% endblock window_title %}
 
 {% block top_content %}
-<h1 class="display-4">{{ course.name }}</h1>
-<p class="lead">Продолжительность: {{ course.lessons.count }} занятий.</p>
-{% if link_enabled %}
-<div class="mt-5">
-  <a class="btn btn-primary btn-lg" href="#" role="button">Записаться</a>
-</div>
-{% endif %}
-{% endblock top_content %} 
+    <h1 class="display-4">{{ course.name }}</h1>
+    <p class="lead mt-4">Продолжительность: {{ course.lessons.count }} занятий.</p>
+    {% with course.students.count as students_count %}
+        {% if students_count %}
+            <p class="lead">{{ students_count }} студентов выбрали этот курс.</p>
+        {% else %}
+            <p class="lead">На курсе пока нет ни одного студента.</p>
+        {% endif %}
+    {% endwith %}
+{% endblock top_content %}
 
 {% block content %}
-<div id="course-description" class="border-bottom mb-4">
-  <h3 class="mb-3">О курсе</h3>
-  <p>{{ course.description|linebreaksbr }}</p>
-</div>
-<div id="author-details">
-  <h3 class="mb-3">О преподавателе</h3>
-  <div class="row">
-    <div class="photo col-3 text-center">
-      <img class="img-fluid" src="{{ course.tutor.get_img_url }}" />
-      <p>{{ course.tutor.get_full_name }}</p>
+    <div id="course-description" class="border-bottom mb-4">
+        <h3 class="mb-3">О курсе</h3>
+        <p>{{ course.description|linebreaksbr }}</p>
     </div>
-    <div class="teacher-info col-9">
-      <p>{{ course.tutor.resume|linebreaksbr }}</p>
+    <div id="author-details">
+        <h3 class="mb-3">О преподавателе</h3>
+        <div class="row">
+            <div class="photo col-3 text-center">
+                <img class="img-fluid" src="{{ course.tutor.user.get_image_url }}" alt="{{ course.tutor }}"/>
+                <p>{{ course.tutor }}</p>
+            </div>
+            <div class="col-9">
+                <p>{{ course.tutor.resume|linebreaksbr }}</p>
+            </div>
+        </div>
     </div>
-  </div>
-</div>
 {% endblock content %}

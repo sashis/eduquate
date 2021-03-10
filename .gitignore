@@ -1,5 +1,6 @@
 .env.*
 !*.sample
+media/
 
 # Created by .ignore support plugin (hsz.mobi)
 ### Python template

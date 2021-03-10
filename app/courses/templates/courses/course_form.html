@@ -1,0 +1,29 @@
+{% extends "base.html" %}
+{% load crispy_forms_tags %}
+
+{% block window_title %}Создание курса{% endblock window_title %}
+
+{% block top_content %}
+<h1 class="display-4">Создание курса</h1>
+{% endblock top_content %}
+
+{% block content %}
+  <div class="row justify-content-center">
+    <div class="col-lg-4 col-md-6 col-sm-8 col-12">
+      <form method="post" novalidate>
+        {% csrf_token %}
+        {{ form|crispy }}
+        <div id="buttons">
+          <button type="submit" class="float-left mx-n1 w-50 btn btn-success">
+              {% if not course.pk %}
+                Создать
+              {% else %}
+                Сохранить
+              {% endif %}
+          </button>
+          <a class="float-right mx-n1 w-50 btn btn-secondary" href="{% url 'courses:list' %}">Нет</a>
+        </div>
+      </form>
+    </div>
+  </div>
+{% endblock content %}
