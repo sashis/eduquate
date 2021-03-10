@@ -12,18 +12,14 @@ services:
       - ./.env
     environment:
       - MAIN_APP=yes
-      - DATABASE_URL=${DB_ENGINE}://${DB_USER}:${DB_PASS}@${DB_HOST}:${DB_PORT}/${DB_NAME}
-      - BROKER_URL=redis://redis:6379
     depends_on:
       - db
   db:
     image: postgres:12
     volumes:
-    - postgres_data:/var/lib/postgresql/data/
-    environment:
-      - POSTGRES_USER=${DB_USER}
-      - POSTGRES_PASSWORD=${DB_PASS}
-      - POSTGRES_DB=${DB_NAME}
+      - pgdata:/var/lib/postgresql/data/
+    env_file:
+      - ./.env
   redis:
     image: redis:6
   celery:
@@ -33,9 +29,6 @@ services:
       - ./app:/usr/src/app
     env_file:
       - ./.env
-    environment:
-      - DATABASE_URL=${DB_ENGINE}://${DB_USER}:${DB_PASS}@${DB_HOST}:${DB_PORT}/${DB_NAME}
-      - BROKER_URL=redis://redis:6379
     restart: always
     depends_on:
       - db
@@ -43,4 +36,4 @@ services:
       - app
 
 volumes:
-  postgres_data:
+  pgdata:

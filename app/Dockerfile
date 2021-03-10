@@ -7,7 +7,7 @@ ENV PYTHONDONTWRITEBYTECODE=1 \
     PIP_NO_CACHE_DIR=off
 
 RUN apt-get update \
-    && apt-get install -y --no-install-recommends libpq-dev netcat \
+    && apt-get install -y --no-install-recommends libpq-dev \
     && apt-get clean \
     && pip install --upgrade pip
 

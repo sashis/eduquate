@@ -32,7 +32,7 @@ MESSAGE_TAGS = {
 }
 
 ADMINS = [
-    ('Site Admin', 'admin@eduquate.con')
+    ('Site Admin', 'admin@eduquate.com')
 ]
 DEFAULT_FROM_EMAIL = 'no-reply@eduquate.com'
 EMAIL_SUBJECT_PREFIX = '[EduQuate Site Message] '
