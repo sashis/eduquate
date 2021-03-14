@@ -1,33 +1,35 @@
 import graphene
+from graphene_django import DjangoListField
+from graphene_django.types import DjangoObjectType
 
-from graphene_django.types import DjangoObjectType, ObjectType
-
-from .models import Student, Tutor
+from .models import User, Student, Tutor
 
 
-class StudentType(DjangoObjectType):
-    """Student model"""
+class UserType(DjangoObjectType):
     class Meta:
-        model = Student
-        fields = ('id', 'email', 'first_name', 'last_name', 'gender', 'image')
+        model = User
+        exclude = 'password',
 
-    gender = graphene.String()
     full_name = graphene.String()
 
-    def resolve_full_name(self, info):
-        return self.get_full_name()
+    def resolve_full_name(parent, info):
+        return parent.get_full_name()
 
-    def resolve_gender(self, info):
-        return self.get_gender_display()
-    
 
-class Query(ObjectType):
+class StudentType(UserType):
+    class Meta:
+        model = Student
+        exclude = 'password',
+
+
+class TutorType(DjangoObjectType):
+    class Meta:
+        model = Tutor
+
+
+class Query(graphene.ObjectType):
     student = graphene.Field(StudentType, id=graphene.Int())
-    all_students = graphene.List(StudentType)
+    all_students = DjangoListField(StudentType)
 
-    def resolve_student(self, info, **kwargs):
-        id = kwargs.get('id')
+    def resolve_student(root, info, id):
         return Student.objects.get(pk=id)
-
-    def resolve_all_students(self, info, **kwargs):
-        return Student.objects.all()

@@ -1,10 +1,13 @@
-import graphene
+from django.conf import settings
+from graphene import Field, Schema, ObjectType
+from graphene_django.debug import DjangoDebug
 
-from accounts.schema import Query as StudentQuery
+from accounts.schema import Query as AccountQuery
+from courses.schema import Query as CourseQuery
 
 
-class Query(StudentQuery, graphene.ObjectType):
-    pass
+class Query(AccountQuery, CourseQuery, ObjectType):
+    debug = Field(DjangoDebug, name='_debug') if settings.DEBUG else None
 
 
-schema = graphene.Schema(query=Query)
+schema = Schema(query=Query)

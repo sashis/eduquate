@@ -18,12 +18,13 @@ def _get_unique_filename(instance, filename):
 class GenderChoice(models.TextChoices):
     MALE = 'm', 'мужской'
     FEMALE = 'f', 'женский'
-    __empty__ = ''
+    UNKNOWN = 'u', 'неизвестен'
 
     @property
     def image_url(self):
         image_urls = {
             'm': 'img/avatar-male.jpg',
+            'u': 'img/avatar-male.jpg',
             'f': 'img/avatar-female.jpg'
         }
         return urljoin(settings.STATIC_URL, image_urls[self.value])
@@ -41,7 +42,8 @@ class User(AbstractUser):
         }
     )
     birthdate = models.DateField('дата рождения', blank=True, null=True)
-    gender = models.CharField('пол', max_length=1, choices=GenderChoice.choices, blank=True)
+    gender = models.CharField('пол', max_length=1, choices=GenderChoice.choices,
+                              blank=False, default=GenderChoice.UNKNOWN)
     image = models.ImageField('фото', upload_to=_get_unique_filename, blank=True)
     is_tutor = models.BooleanField('преподаватель', default=False)
 
@@ -56,7 +58,7 @@ class User(AbstractUser):
         try:
             return self.image.url
         except ValueError:
-            return GenderChoice(self.gender or GenderChoice.MALE).image_url
+            return GenderChoice(self.gender).image_url
 
 
 class Student(User):

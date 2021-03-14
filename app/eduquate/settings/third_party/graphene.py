@@ -6,4 +6,4 @@ GRAPHENE = {
     'SCHEMA': 'eduquate.schema.schema'
 }
 if DEBUG:
-    GRAPHENE['MIDDLEWARE'] = 'graphene_django.debug.DjangoDebugMiddleware'
+    GRAPHENE['MIDDLEWARE'] = ['graphene_django.debug.DjangoDebugMiddleware']
