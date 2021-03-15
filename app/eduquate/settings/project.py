@@ -8,6 +8,7 @@ INSTALLED_APPS.extend([
     'courses.apps.CoursesConfig',
     'learning.apps.LearningConfig',
     'contacts.apps.ContactsConfig',
+    'api.apps.ApiConfig',
 ])
 
 if db_params := env.db('DATABASE_URL'):

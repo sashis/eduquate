@@ -13,6 +13,7 @@ urlpatterns = [
     path('accounts/', include('accounts.urls', namespace='accounts')),
     path('courses/', include('courses.urls', namespace='courses')),
     path('contacts/', ContactView.as_view(), name='contacts'),
+    path('api-auth/', include('rest_framework.urls')),
     path('graphql/', csrf_exempt(GraphQLView.as_view(graphiql=settings.DEBUG))),
     path('admin/', admin.site.urls),
 ]
