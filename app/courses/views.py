@@ -34,7 +34,7 @@ class CourseCreate(TutorAccessMixin, generic.CreateView):
     fields = 'name', 'description'
 
     def form_valid(self, form):
-        form.instance.tutor = self.request.user.tutor
+        form.instance.tutor = self.request.user
         messages.success(self.request, 'Вы успешно создали курс!')
         return super().form_valid(form)
 

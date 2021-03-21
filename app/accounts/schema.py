@@ -1,14 +1,15 @@
 import graphene
+from django.shortcuts import get_object_or_404
 from graphene_django import DjangoListField
 from graphene_django.types import DjangoObjectType
 
-from .models import User, Student, Tutor
+from .models import Student, Tutor, User
+from courses.schema import CourseType
 
 
 class UserType(DjangoObjectType):
     class Meta:
         model = User
-        exclude = 'password',
 
     full_name = graphene.String()
 
@@ -19,17 +20,28 @@ class UserType(DjangoObjectType):
 class StudentType(UserType):
     class Meta:
         model = Student
-        exclude = 'password',
+        fields = ('id', 'first_name', 'last_name', 'email', 'birthdate',
+                  'gender', 'image', 'resume', 'subscribed_courses')
 
 
-class TutorType(DjangoObjectType):
+class TutorType(UserType):
+
+    courses = DjangoListField(CourseType)
+
     class Meta:
         model = Tutor
+        fields = ('id', 'first_name', 'last_name', 'email', 'birthdate',
+                  'gender', 'image', 'resume')
 
 
 class Query(graphene.ObjectType):
     student = graphene.Field(StudentType, id=graphene.Int())
+    tutor = graphene.Field(TutorType, id=graphene.Int())
     all_students = DjangoListField(StudentType)
+    all_tutors = DjangoListField(TutorType)
 
     def resolve_student(root, info, id):
-        return Student.objects.get(pk=id)
+        return get_object_or_404(Student, pk=id)
+
+    def resolve_tutor(root, info, id):
+        return get_object_or_404(Tutor, pk=id)

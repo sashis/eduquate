@@ -1,6 +1,5 @@
 import factory
 from django.conf import settings
-from django.db.models.signals import post_save
 
 from .models import User, Student, Tutor, GenderChoice
 
@@ -22,7 +21,6 @@ class PersonFactory(factory.StubFactory):
     last_name = fake('last_name_female')
 
 
-@factory.django.mute_signals(post_save)
 class UserFactory(factory.django.DjangoModelFactory):
     class Meta:
         model = User
@@ -37,6 +35,7 @@ class UserFactory(factory.django.DjangoModelFactory):
     first_name = factory.SelfAttribute('person.first_name')
     last_name = factory.SelfAttribute('person.last_name')
     birthdate = fake('date_between', start_date='-45y', end_date='-18y')
+    resume = fake('text', max_nb_chars=1000)
 
 
 class StudentFactory(UserFactory):
@@ -46,10 +45,8 @@ class StudentFactory(UserFactory):
     is_tutor = False
 
 
-@factory.django.mute_signals(post_save)
-class TutorFactory(factory.django.DjangoModelFactory):
+class TutorFactory(UserFactory):
     class Meta:
         model = Tutor
 
-    user = factory.SubFactory(UserFactory, is_tutor=True)
-    resume = fake('text', max_nb_chars=1000)
+    is_tutor = True

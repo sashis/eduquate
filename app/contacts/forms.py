@@ -6,7 +6,7 @@ from .tasks import prepare_email, send_email
 
 class SendMailForm(forms.Form):
     recipient = forms.ModelChoiceField(
-        Tutor.objects.order_by('user__last_name'),
+        Tutor.objects.order_by('last_name'),
         empty_label="Выберите получателя",
         label='',
         error_messages={'required': 'Выберите получателя'}

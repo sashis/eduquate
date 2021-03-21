@@ -23,3 +23,12 @@ class UserManager(BaseUserManager):
             'is_superuser': True,
         })
         return self._create_user(email, password, **other_fields)
+
+
+class StudentManager(UserManager):
+    pass
+
+
+class TutorManager(UserManager):
+    def get_queryset(self):
+        return super().get_queryset().filter(is_tutor=True)

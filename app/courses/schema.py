@@ -1,5 +1,6 @@
 import graphene
-from graphene_django import DjangoObjectType, DjangoListField
+from django.shortcuts import get_object_or_404
+from graphene_django import DjangoListField, DjangoObjectType
 
 from .models import Course, Lesson
 
@@ -19,4 +20,4 @@ class Query(graphene.ObjectType):
     all_courses = DjangoListField(CourseType)
 
     def resolve_course(root, info, id):
-        return Course.objects.get(pk=id)
+        return get_object_or_404(Course, pk=id)
