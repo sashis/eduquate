@@ -7,4 +7,4 @@ class AccountSerializer(serializers.HyperlinkedModelSerializer):
     class Meta:
         model = User
         fields = ('url', 'id', 'first_name', 'last_name', 'email',
-                  'birthdate', 'gender', 'image', 'is_tutor')
+                  'birthdate', 'gender', 'image', 'is_tutor', 'resume')
