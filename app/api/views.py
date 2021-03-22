@@ -5,13 +5,20 @@ from rest_framework_simplejwt.views import TokenObtainPairView
 from rest_framework_simplejwt.serializers import TokenRefreshSerializer
 
 from accounts.models import User
-from .serializers import AccountSerializer
+from courses.models import Course
+from .serializers import AccountSerializer, CourseSerializer
 
 
 class AccountViewSet(viewsets.ModelViewSet):
     queryset = User.objects.all()
     serializer_class = AccountSerializer
-    permission_classes = [permissions.IsAuthenticated]
+    permission_classes = [permissions.IsAuthenticatedOrReadOnly]
+
+
+class CourseViewSet(viewsets.ModelViewSet):
+    queryset = Course.objects.all()
+    serializer_class = CourseSerializer
+    permission_classes = [permissions.IsAuthenticatedOrReadOnly]
 
 
 class TokenViewSet(TokenObtainPairView, viewsets.ViewSet):
