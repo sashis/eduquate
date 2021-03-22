@@ -1,7 +1,7 @@
 from rest_framework import serializers
 
 from accounts.models import User
-from courses.models import Course, Lesson
+from courses.models import Course
 
 
 class AccountSerializer(serializers.HyperlinkedModelSerializer):
@@ -12,17 +12,10 @@ class AccountSerializer(serializers.HyperlinkedModelSerializer):
 
 
 class CourseSerializer(serializers.HyperlinkedModelSerializer):
-    tutor = serializers.HyperlinkedRelatedField(
-        many=False,
-        read_only=True,
-        view_name='user-detail'
-    )
-    students = serializers.HyperlinkedRelatedField(
-        many=True,
-        read_only=True,
-        view_name='user-detail'
-    )
-
     class Meta:
         model = Course
         fields = 'id', 'url', 'name', 'description', 'tutor', 'students'
+        extra_kwargs = {
+            'tutor': {'view_name': 'user-detail'},
+            'students': {'view_name': 'user-detail'}
+        }
