@@ -7,20 +7,22 @@ from rest_framework_simplejwt.serializers import TokenRefreshSerializer
 
 from accounts.models import User
 from courses.models import Course
-from .helpers import EduquateViewSet
+from .viewsets import EduquateViewSet
+from .permissions import IsObjectOwner, ReadOnly
 from .serializers import AccountSerializer, CourseSerializer
 
 
 class AccountViewSet(EduquateViewSet):
     queryset = User.objects.all()
     serializer_class = AccountSerializer
+    permission_classes = [ReadOnly|IsObjectOwner]
     permission_action_classes = {
         'list': [permissions.IsAdminUser],
         'create': [~permissions.IsAuthenticated],
         'me': [permissions.IsAuthenticated]
     }
 
-    @action(detail=False, methods=['get', 'put', 'patch', 'delete'])
+    @action(detail=False)
     def me(self, request, *args, **kwargs):
         serialized_user = self.get_serializer(request.user)
         return Response(serialized_user.data)
