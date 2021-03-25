@@ -9,12 +9,15 @@ from accounts.models import User
 from courses.models import Course
 from .viewsets import EduquateViewSet
 from .permissions import IsObjectOwner, ReadOnly
-from .serializers import AccountSerializer, CourseSerializer
+from .serializers import AccountSerializer, AccountCreateSerializer, CourseSerializer
 
 
 class AccountViewSet(EduquateViewSet):
     queryset = User.objects.all()
     serializer_class = AccountSerializer
+    serializer_action_class = {
+        'create': AccountCreateSerializer,
+    }
     permission_classes = [ReadOnly|IsObjectOwner]
     permission_action_classes = {
         'list': [permissions.IsAdminUser],
@@ -28,8 +31,9 @@ class AccountViewSet(EduquateViewSet):
         return Response(serialized_user.data)
 
 
-class CourseViewSet(viewsets.ModelViewSet):
+class CourseViewSet(EduquateViewSet):
     queryset = Course.objects.all()
+    owner_field = 'tutor'
     serializer_class = CourseSerializer
     permission_classes = [permissions.IsAuthenticatedOrReadOnly]
 

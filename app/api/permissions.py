@@ -6,8 +6,9 @@ from rest_framework.permissions import BasePermission, SAFE_METHODS
 class IsObjectOwner(BasePermission):
 
     def has_object_permission(self, request, view, obj):
-        assert hasattr(view, 'owner_field'), f"{view.__class__.__name__} class has no 'owner_field' attribute defined."
-
+        assert hasattr(view, 'owner_field'), (
+            f"{view.__class__.__name__} class has no 'owner_field' attribute defined."
+        )
         if view.owner_field is None:
             return obj == request.user
         try:

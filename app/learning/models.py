@@ -10,7 +10,7 @@ class CourseSubscription(models.Model):
     student = models.ForeignKey(
         'accounts.Student',
         models.CASCADE,
-        related_name='+',
+        related_name='subscriptions',
         verbose_name='студент'
     )
     course = models.ForeignKey(
