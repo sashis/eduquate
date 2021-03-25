@@ -9,25 +9,22 @@ from accounts.models import User
 from courses.models import Course
 from .viewsets import EduquateViewSet
 from .permissions import IsObjectOwner, ReadOnly
-from .serializers import AccountSerializer, AccountCreateSerializer, CourseSerializer
+from .serializers import AccountSerializer, AccountDetailSerializer, CourseSerializer
 
 
 class AccountViewSet(EduquateViewSet):
     queryset = User.objects.all()
     serializer_class = AccountSerializer
-    serializer_action_class = {
-        'create': AccountCreateSerializer,
-    }
     permission_classes = [ReadOnly|IsObjectOwner]
     permission_action_classes = {
         'list': [permissions.IsAdminUser],
         'create': [~permissions.IsAuthenticated],
-        'me': [permissions.IsAuthenticated]
     }
 
-    @action(detail=False)
+    @action(detail=False, serializer_class=AccountDetailSerializer)
     def me(self, request, *args, **kwargs):
         serialized_user = self.get_serializer(request.user)
+        print(serialized_user.context)
         return Response(serialized_user.data)
 
 
