@@ -55,6 +55,10 @@ class User(AbstractUser):
     def __str__(self):
         return self.get_full_name() or self.email
 
+    @property
+    def full_name(self):
+        return self.get_full_name()
+
     def get_image_url(self):
         try:
             return self.image.url

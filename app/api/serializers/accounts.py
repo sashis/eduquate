@@ -1,7 +1,6 @@
 from rest_framework import serializers
 
 from accounts.models import User
-from courses.models import Course
 
 
 class AccountSerializer(serializers.HyperlinkedModelSerializer):
@@ -27,12 +26,7 @@ class AccountDetailSerializer(AccountSerializer):
         fields = AccountSerializer.Meta.fields + ('courses', 'subscriptions')
 
 
-class CourseSerializer(serializers.HyperlinkedModelSerializer):
+class AccountTerseSerializer(serializers.HyperlinkedModelSerializer):
     class Meta:
-        model = Course
-        # fields = 'id', 'url', 'name', 'description', 'tutor', 'students'
-        fields = '__all__'
-        extra_kwargs = {
-            'tutor': {'view_name': 'user-detail'},
-            'students': {'view_name': 'user-detail'}
-        }
+        model = User
+        fields = 'id', 'url', 'full_name'
