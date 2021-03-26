@@ -30,7 +30,8 @@ class AccountDetailSerializer(AccountSerializer):
 class CourseSerializer(serializers.HyperlinkedModelSerializer):
     class Meta:
         model = Course
-        fields = 'id', 'url', 'name', 'description', 'tutor', 'students'
+        # fields = 'id', 'url', 'name', 'description', 'tutor', 'students'
+        fields = '__all__'
         extra_kwargs = {
             'tutor': {'view_name': 'user-detail'},
             'students': {'view_name': 'user-detail'}

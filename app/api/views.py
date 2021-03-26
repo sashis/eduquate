@@ -1,5 +1,4 @@
 from rest_framework import viewsets, permissions
-from rest_framework.permissions import AllowAny
 from rest_framework.decorators import action
 from rest_framework.response import Response
 from rest_framework_simplejwt.views import TokenObtainPairView
@@ -15,7 +14,7 @@ from .serializers import AccountSerializer, AccountDetailSerializer, CourseSeria
 class AccountViewSet(EduquateViewSet):
     queryset = User.objects.all()
     serializer_class = AccountSerializer
-    permission_classes = [ReadOnly|IsObjectOwner]
+    permission_classes = [ReadOnly | IsObjectOwner]
     permission_action_classes = {
         'list': [permissions.IsAdminUser],
         'create': [~permissions.IsAuthenticated],
@@ -24,19 +23,24 @@ class AccountViewSet(EduquateViewSet):
     @action(detail=False, serializer_class=AccountDetailSerializer)
     def me(self, request, *args, **kwargs):
         serialized_user = self.get_serializer(request.user)
-        print(serialized_user.context)
         return Response(serialized_user.data)
 
 
 class CourseViewSet(EduquateViewSet):
-    queryset = Course.objects.all()
+    queryset = Course.objects.prefetch_related('students')
     owner_field = 'tutor'
     serializer_class = CourseSerializer
-    permission_classes = [permissions.IsAuthenticatedOrReadOnly]
+    permission_classes = [ReadOnly]
+
+    @action(detail=True, methods=['post'])
+    def subscribe(self, request, *args, **kwargs):
+        course = self.get_object()
+        subscription = self.get_serializer(course, request.user)
+        return Response(subscription.data)
 
 
 class TokenViewSet(TokenObtainPairView, viewsets.ViewSet):
-    permission_classes = [AllowAny]
+    permission_classes = [permissions.AllowAny]
 
     def create(self, request, *args, **kwargs):
         return super().post(request, *args, **kwargs)

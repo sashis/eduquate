@@ -24,9 +24,7 @@ class CourseDetailView(generic.DetailView):
 
 class IndexPageView(CourseListView):
     template_name = 'courses/index.html'
-
-    def get_queryset(self):
-        return self.model.objects.with_rating(ordered=True)[:3]
+    queryset = Course.objects.with_counts('students').order_by('-num_students')[:3]
 
 
 class CourseCreate(TutorAccessMixin, generic.CreateView):

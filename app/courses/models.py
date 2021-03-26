@@ -4,10 +4,12 @@ from django.urls import reverse
 
 
 class CourseManager(models.Manager):
-    def with_rating(self, ordered=False):
-        rated_courses = self.annotate(
-            rating=Coalesce(models.Count('students'), 0))
-        return rated_courses.order_by('-rating') if ordered else rated_courses
+    def with_counts(self, *lookup_fields):
+        annotation = {
+            f'num_{field}': Coalesce(models.Count(field, distinct=True), 0)
+            for field in lookup_fields
+        }
+        return self.annotate(**annotation)
 
 
 class Course(models.Model):
