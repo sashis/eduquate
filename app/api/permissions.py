@@ -25,3 +25,8 @@ class ReadOnly(BasePermission):
 
     def has_object_permission(self, request, view, obj):
         return request.method in SAFE_METHODS
+
+
+class IsTutor(BasePermission):
+    def has_permission(self, request, view):
+        return getattr(request.user, 'is_tutor', False)

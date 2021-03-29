@@ -20,5 +20,5 @@ class AccountViewSet(EduquateViewSet):
 
     @action(detail=False, serializer_class=AccountDetailSerializer)
     def me(self, request, *args, **kwargs):
-        serialized_user = self.get_serializer(request.user)
-        return Response(serialized_user.data)
+        serializer = self.get_serializer(instance=request.user)
+        return Response(serializer.data)
