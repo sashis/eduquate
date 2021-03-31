@@ -16,15 +16,20 @@ class TutorAccessMixin(UserPassesTestMixin):
 
 class CourseListView(generic.ListView):
     model = Course
+    queryset = Course.objects.with_counts('students', 'lessons').select_related('tutor')
+
 
 
 class CourseDetailView(generic.DetailView):
     model = Course
+    queryset = Course.objects.with_counts('students', 'lessons').select_related('tutor')
 
 
 class IndexPageView(CourseListView):
     template_name = 'courses/index.html'
-    queryset = Course.objects.with_counts('students').order_by('-num_students')[:3]
+
+    def get_queryset(self):
+        return self.queryset.order_by('-num_students')[:3]
 
 
 class CourseCreate(TutorAccessMixin, generic.CreateView):

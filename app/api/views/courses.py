@@ -12,7 +12,7 @@ class CourseViewSet(EduquateViewSet):
     owner_field = 'tutor'
     queryset = Course.objects.all()
     queryset_action = {
-        'list': Course.objects.with_counts('students', 'lessons').order_by('-num_students')
+        'list': Course.objects.with_counts('students', 'lessons').select_related('tutor').order_by('-num_students')
     }
     serializer_class = CourseSerializer
     serializer_action_class = {

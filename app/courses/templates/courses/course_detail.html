@@ -4,8 +4,8 @@
 
 {% block top_content %}
     <h1 class="display-4">{{ course.name }}</h1>
-    <p class="lead mt-4">Продолжительность: {{ course.lessons.count }} занятий.</p>
-    {% with course.students.count as students_count %}
+    <p class="lead mt-4">Продолжительность: {{ course.num_lessons }} занятий.</p>
+    {% with course.num_students as students_count %}
         {% if students_count %}
             <p class="lead">{{ students_count }} студентов выбрали этот курс.</p>
         {% else %}

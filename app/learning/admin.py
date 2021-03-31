@@ -17,6 +17,7 @@ class LearningProgressInline(admin.TabularInline):
 @admin.register(CourseSubscription)
 class CourseSubscriptionAdmin(admin.ModelAdmin):
     save_on_top = True
+    list_select_related = 'course',
     inlines = LearningProgressInline,
 
     def get_inlines(self, request, obj):
