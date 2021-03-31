@@ -1,0 +1,32 @@
+{
+  "name": "simple-front",
+  "version": "0.1.0",
+  "description": "Base frontend with axios",
+  "private": true,
+  "scripts": {
+    "start": "webpack serve",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/sashis/eduquate.git"
+  },
+  "author": "Aleksandr Kropanev <kropanev@mail.ru>",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/sashis/eduquate/issues"
+  },
+  "homepage": "https://github.com/sashis/eduquate#readme",
+  "dependencies": {
+    "axios": "^0.21.1"
+  },
+  "devDependencies": {
+    "@babel/core": "^7.13.14",
+    "@babel/preset-env": "^7.13.12",
+    "babel-loader": "^8.2.2",
+    "html-webpack-plugin": "^5.3.1",
+    "webpack": "^5.28.0",
+    "webpack-cli": "^4.6.0",
+    "webpack-dev-server": "^3.11.2"
+  }
+}
