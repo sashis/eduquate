@@ -57,7 +57,7 @@ class User(AbstractUser):
 
     @property
     def full_name(self):
-        return self.get_full_name()
+        return str(self)
 
     def get_image_url(self):
         try:

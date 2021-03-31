@@ -4,24 +4,22 @@ from rest_framework.response import Response
 
 from courses.models import Course, Lesson
 from ..permissions import IsTutor, IsObjectOwner, ReadOnly
-from ..serializers import CourseSerializer, CourseDetailSerializer
+from ..serializers import CourseListSerializer, CourseSerializer
 from ..viewsets import EduquateViewSet
 
 
 class CourseViewSet(EduquateViewSet):
-    queryset = Course.objects.with_counts('students', 'lessons')
     owner_field = 'tutor'
+    queryset = Course.objects.all()
+    queryset_action = {
+        'list': Course.objects.with_counts('students', 'lessons').order_by('-num_students')
+    }
     serializer_class = CourseSerializer
+    serializer_action_class = {
+        'list': CourseListSerializer
+    }
     permission_classes = [ReadOnly | IsObjectOwner]
     permission_action_classes = {
         'create': [IsTutor],
         'subscribe': [permissions.IsAuthenticated, ~IsObjectOwner]
     }
-
-    @action(detail=True, methods=['post'])
-    def subscribe(self, request, *args, **kwargs):
-        course = self.get_object()
-        course.students.add(request.user.id)
-        subscription = request.user.subscriptions.get(course=course)
-        serializer = self.get_serializer(subscription)
-        return Response(serializer.data)

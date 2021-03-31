@@ -6,7 +6,7 @@ from accounts.models import User
 class AccountSerializer(serializers.HyperlinkedModelSerializer):
     class Meta:
         model = User
-        fields = ('url', 'id', 'email', 'password', 'is_tutor', 'first_name',
+        fields = ('url', 'email', 'password', 'is_tutor', 'first_name',
                   'last_name', 'birthdate', 'gender', 'image', 'resume')
         extra_kwargs = {
             'password': {'write_only': True}
@@ -21,12 +21,13 @@ class AccountSerializer(serializers.HyperlinkedModelSerializer):
         return super().update(instance, validated_data)
 
 
-class AccountDetailSerializer(AccountSerializer):
+class AccountPersonalSerializer(AccountSerializer):
     class Meta(AccountSerializer.Meta):
         fields = AccountSerializer.Meta.fields + ('courses', 'subscriptions')
+        read_only_fields = 'courses', 'subscriptions'
 
 
-class AccountTerseSerializer(serializers.HyperlinkedModelSerializer):
+class AccountListSerializer(serializers.HyperlinkedModelSerializer):
     class Meta:
         model = User
-        fields = 'id', 'url', 'full_name'
+        fields = 'url', 'full_name'

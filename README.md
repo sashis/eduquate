@@ -102,3 +102,9 @@ query {
   }
 }
 ```
+
+
+### 4. REST API
+
+Добавлен API `/api/v1/` для моделей `User`, `Course`, `CourseSubscription`. Добавлена
+поддержка JWT-токенов.

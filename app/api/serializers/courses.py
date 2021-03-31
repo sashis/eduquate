@@ -1,28 +1,30 @@
 from rest_framework import serializers
 
-from courses.models import Course, Lesson
-from ..serializers import AccountTerseSerializer
+from courses.models import Course
+from ..serializers import AccountListSerializer
 
 
-class LessonSerializer(serializers.ModelSerializer):
+class CourseListSerializer(serializers.HyperlinkedModelSerializer):
+    num_students = serializers.IntegerField(read_only=True)
+    num_lessons = serializers.IntegerField(read_only=True)
+    tutor = AccountListSerializer(read_only=True)
+
     class Meta:
-        model = Lesson
-        fields = '__all__'
+        model = Course
+        fields = 'url', 'name', 'tutor', 'num_lessons', 'num_students'
 
 
 class CourseSerializer(serializers.HyperlinkedModelSerializer):
-    num_students = serializers.IntegerField(read_only=True)
-    num_lessons = serializers.IntegerField(read_only=True)
-    tutor = AccountTerseSerializer(read_only=True)
 
     class Meta:
         model = Course
-        fields = 'id', 'url', 'name', 'description', 'tutor', 'num_lessons', 'num_students'
+        fields = 'url', 'name', 'description', 'tutor', 'students'
+        read_only_fields = 'tutor', 'students'
+        extra_kwargs = {
+            'tutor': {'view_name': 'user-detail'},
+            'students': {'view_name': 'user-detail'}
+        }
 
-
-class CourseDetailSerializer(serializers.HyperlinkedModelSerializer):
-    students = AccountTerseSerializer(many=True, read_only=True)
-
-    class Meta:
-        model = Course
-        fields = 'id', 'url', 'name', 'description', 'tutor', 'lessons', 'students'
+    def create(self, validated_data):
+        tutor = self.context['request'].user
+        return Course.objects.create(tutor=tutor, **validated_data)

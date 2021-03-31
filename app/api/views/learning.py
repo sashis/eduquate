@@ -6,6 +6,10 @@ from ..viewsets import EduquateViewSet
 
 
 class CourseSubscriptionViewSet(EduquateViewSet):
+    owner = 'student'
     queryset = CourseSubscription.objects.all()
     serializer_class = CourseSubscriptionSerializer
-    permission_classes = [permissions.AllowAny]
+    permission_classes = [permissions.IsAuthenticated]
+
+    def get_queryset(self):
+        return super().get_queryset().filter(student=self.request.user)
