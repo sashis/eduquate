@@ -14,6 +14,17 @@ services:
       - MAIN_APP=yes
     depends_on:
       - db
+  frontend:
+    build: ./simple_front
+    command: yarn start
+    volumes:
+    - ./simple_front:/usr/app
+    environment:
+      - API_ROOT=http://127.0.0.1:8000/api/v1
+    ports:
+    - 3000:3000
+    depends_on:
+      - app
   db:
     image: postgres:12
     volumes:

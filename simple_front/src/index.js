@@ -1,20 +1,20 @@
 import axios from 'axios';
 
-async function getPeople(id, render) {
-  const response = await fetch(`https://swapi.dev/api/people/`);
-  const human = await response.json();
-  render(human)
+const api_root = API_URL;
+
+async function getAccount(id) {
+  const response = await fetch(`${api_root}/accounts/${id}/`);
+  return await response.json();
 }
 
-async function getStarship(id) {
-  let response;
+async function getCourses() {
   try {
-    response = await axios.get(`https://swapi.dev/api/starships/`);
+    const res = await axios.get(`${api_root}/courses/`);
+    return res.data;
   } catch (e) {
-    return "Can't fetch data from server"
+    return 'Can\'t fetch data from server';
   }
-  return response.data
 }
 
-getPeople(1, h => console.log(h));
-getStarship(2).then(data => console.log(data));
+getAccount(1).then(account => console.log(account));
+getCourses().then(data => console.log(data));
