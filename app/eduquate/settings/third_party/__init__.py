@@ -4,3 +4,4 @@ from .celery_results import *
 from .graphene import *
 from .restframework import *
 from .debug_toolbar import *
+from .cors_headers import *
