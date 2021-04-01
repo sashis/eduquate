@@ -2,9 +2,13 @@ import axios from 'axios';
 
 const api_root = API_URL;
 
-async function getAccount(id) {
-  const response = await fetch(`${api_root}/accounts/${id}/`);
-  return await response.json();
+async function getAccount(id = 1) {
+  try {
+    const response = await fetch(`${api_root}/accounts/${id}/`);
+    return await response.json();
+  } catch (e) {
+    return 'Can\'t fetch data from server';
+  }
 }
 
 async function getCourses() {
@@ -16,5 +20,14 @@ async function getCourses() {
   }
 }
 
-getAccount(1).then(account => console.log(account));
-getCourses().then(data => console.log(data));
+function initPanel(panelElement, fetchFunction) {
+  const [button, plane] = panelElement.children;
+  button.onclick = () => {
+    fetchFunction().then(data => {
+      plane.innerHTML = JSON.stringify(data, null, 2);
+    });
+  };
+}
+
+initPanel(document.getElementById('axios-panel'), getCourses);
+initPanel(document.getElementById('fetch-panel'), getAccount);

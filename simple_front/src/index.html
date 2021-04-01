@@ -4,7 +4,40 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
     <title>Работа с API</title>
+    <style>
+        * {
+            box-sizing: border-box;
+        }
+        .container {
+            display: flex;
+            justify-content: center;
+        }
+        .column {
+            width: 50%;
+            min-height: 400px;
+            border: #adb5bd solid 1px;
+            padding: 16px;
+            text-align: center;
+        }
+        .column pre {
+            text-align: left;
+            font-size: .8em;
+            background: #eee;
+            padding: 16px;
+            height: calc(100% - 32px);
+        }
+    </style>
 </head>
 <body>
+    <div class="container">
+        <div id="axios-panel" class="column">
+            <button>AXIOS</button>
+            <pre>Данные с сервера</pre>
+        </div>
+        <div id="fetch-panel" class="column">
+            <button>FETCH</button>
+            <pre>Данные с сервера</pre>
+        </div>
+    </div>
 </body>
 </html>
