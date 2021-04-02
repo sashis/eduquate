@@ -15,12 +15,11 @@ services:
     depends_on:
       - db
   frontend:
-    build: ./simple_front
+    build: ./react_frontend
     command: yarn start
     volumes:
-    - ./simple_front:/usr/app
-    environment:
-      - API_ROOT=http://127.0.0.1:8000/api/v1
+      - ./react_frontend:/usr/app
+      - /usr/app/node_modules
     ports:
     - 3000:3000
     depends_on:
