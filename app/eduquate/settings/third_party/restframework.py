@@ -2,7 +2,7 @@ from datetime import timedelta
 
 from eduquate.settings import INSTALLED_APPS
 
-INSTALLED_APPS.append('rest_framework')
+INSTALLED_APPS.extend(['rest_framework', 'django_filters'])
 
 REST_FRAMEWORK = {
     'DEFAULT_PERMISSION_CLASSES': [
@@ -12,6 +12,7 @@ REST_FRAMEWORK = {
         'rest_framework.authentication.SessionAuthentication',
         'rest_framework_simplejwt.authentication.JWTAuthentication',
     ],
+   'DEFAULT_FILTER_BACKENDS': ['django_filters.rest_framework.DjangoFilterBackend'],
 }
 
 SIMPLE_JWT = {

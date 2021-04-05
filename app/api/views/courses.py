@@ -11,6 +11,9 @@ from ..viewsets import EduquateViewSet
 class CourseViewSet(EduquateViewSet):
     owner_field = 'tutor'
     queryset = Course.objects.all()
+    filter_backends = [filters.OrderingFilter]
+    ordering_fields = ['pk', 'num_students']
+    ordering = ['pk']
     queryset_action = {
         'list': Course.objects.with_counts('students', 'lessons').select_related('tutor').order_by('-num_students')
     }
