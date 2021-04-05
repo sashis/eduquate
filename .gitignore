@@ -2,6 +2,7 @@
 !*.sample
 media/
 node_modules/
+.DS_Store
 
 # Created by .ignore support plugin (hsz.mobi)
 ### Python template
