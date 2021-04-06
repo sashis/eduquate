@@ -11,11 +11,6 @@ class Api {
     const {data} = await axios.get(`${this.root_url}/courses/`);
     return data;
   }
-
-  async getTopCourses(top_count = 3) {
-    const courses = await this.getCourses();
-    return courses.slice(0, top_count);
-  }
 }
 
 export default new Api(API_ROOT);
